@@ -1,0 +1,98 @@
+Preset-Selkies Desktop
+Copyright (c) 2025 Bitfennec
+
+This project is based on LinuxServer's docker-baseimage-selkies:
+https://github.com/linuxserver/docker-baseimage-selkies
+Copyright (c) LinuxServer.io
+Licensed under GPL-3.0
+
+================================================================================
+MODIFICATIONS
+================================================================================
+
+This modified version (Preset-Selkies) includes the following changes:
+
+1. Added pre-installed applications:
+   - WeChat (微信) for Linux
+   - QQ for Linux
+   - Thorium Browser
+
+2. Added custom system startup scripts:
+   - scripts/system-start.sh - System initialization script
+   - scripts/app-restart.sh - Application restart helper with debouncing
+   - scripts/autostart-apps.sh - Auto-start manager for applications
+
+3. Added configuration files:
+   - config/menu.xml - Custom Openbox menu configuration
+
+4. Added environment variables for application auto-start control:
+   - AUTO_START_WECHAT
+   - AUTO_START_QQ
+   - AUTO_START_THORIUM
+
+5. Added Chinese language and timezone defaults:
+   - TZ=Asia/Shanghai
+   - LC_ALL=zh_CN.UTF-8
+
+6. Added Chinese fonts (fonts-noto-cjk) and system tray support (stalonetray)
+
+7. Added custom assets:
+   - assets/app-icon.png - Custom application icon
+   - assets/Background.png - Custom desktop wallpaper
+
+8. Enhanced clipboard functionality defaults:
+   - SELKIES_CLIPBOARD_ENABLED=true
+   - SELKIES_ENABLE_BINARY_CLIPBOARD=true
+
+9. Added comprehensive Chinese documentation (README.md)
+
+================================================================================
+UPSTREAM PROJECT
+================================================================================
+
+This software is based on docker-baseimage-selkies by LinuxServer.io,
+which is licensed under the GNU General Public License v3.0.
+
+The base image source code is available at:
+https://github.com/linuxserver/docker-baseimage-selkies
+
+================================================================================
+LICENSE
+================================================================================
+
+This modified version is also distributed under the GNU General Public License
+v3.0. See the LICENSE file for the complete license text.
+
+In accordance with GPL-3.0 Section 5, all modifications are clearly marked
+and documented in this NOTICE file.
+
+================================================================================
+THIRD-PARTY SOFTWARE
+================================================================================
+
+This image includes the following third-party software:
+
+- WeChat for Linux: Copyright (c) Tencent
+  Website: https://weixin.qq.com/
+
+- QQ for Linux: Copyright (c) Tencent
+  Website: https://im.qq.com/
+
+- Thorium Browser: Copyright (c) Alex313031
+  Website: https://thorium.rocks/
+  License: BSD-3-Clause
+  Source: https://github.com/Alex313031/thorium
+
+- Selkies GStreamer: Copyright (c) 2019 The Selkies Authors
+  License: Mozilla Public License 2.0
+  Source: https://github.com/selkies-project/selkies-gstreamer
+
+Please refer to each component's respective license for their terms of use.
+
+================================================================================
+NO WARRANTY
+================================================================================
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+  <menu id="root-menu" label="Applications">
+
+    <item label="Terminal" icon="/usr/share/pixmaps/xterm-color_48x48.xpm">
+      <action name="Execute">
+        <command>/usr/bin/xterm</command>
+      </action>
+    </item>
+
+    <separator />
+
+    <item label="WeChat" icon="/usr/share/icons/hicolor/128x128/apps/wechat.png">
+      <action name="Execute">
+        <command>/scripts/app-restart.sh /usr/bin/wechat</command>
+      </action>
+    </item>
+
+    <item label="QQ" icon="/usr/share/icons/hicolor/512x512/apps/qq.png">
+      <action name="Execute">
+        <command>/scripts/app-restart.sh /usr/bin/qq --no-sandbox</command>
+      </action>
+    </item>
+
+    <separator />
+
+    <item label="Thorium Browser" icon="/usr/share/icons/hicolor/128x128/apps/thorium-browser.png">
+      <action name="Execute">
+        <command>/scripts/app-restart.sh /usr/bin/thorium-browser --no-sandbox --test-type --disable-infobars </command>
+      </action>
+    </item>
+
+  </menu>
+</openbox_menu>

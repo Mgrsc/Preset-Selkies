@@ -1,0 +1,51 @@
+services:
+  preset-selkies:
+    image: ghcr.io/mgrsc/preset-selkies:latest
+    container_name: preset-selkies
+    # Web 访问端口（必须使用 HTTPS 访问）
+    # 访问地址：https://localhost:3000
+    ports:
+      - "3000:3000"
+    environment:
+      # ============ 必需配置 ============
+      # 用户和组 ID，用于文件权限管理，一般不要动
+      - PUID=1000
+      - PGID=1000
+
+      # ============ 应用自启动控制（本镜像特有）============
+      # 控制容器启动时是否自动启动预装应用
+      - AUTO_START_WECHAT=false      # 微信
+      - AUTO_START_QQ=false           # QQ
+      - AUTO_START_THORIUM=false      # Thorium 浏览器
+
+      # ============ 可选配置 ============
+      # Web 界面身份验证（不设置 PASSWORD 则无需登录）
+      - CUSTOM_USER=admin             # 登录用户名
+      - PASSWORD=your_password_here   # 登录密码
+
+      # ============ 其他配置 ============
+      # 更多配置项（分辨率、编码器、GPU 等）请参考：
+      # https://docs.linuxserver.io/images/docker-baseimage-selkies
+      #
+      # 常用配置示例：
+      # - CUSTOM_RES_W=1920           # 桌面宽度（默认 1920）
+      # - CUSTOM_RES_H=1080           # 桌面高度（默认 1080）
+      # - SELKIES_ENCODER=x264enc     # 视频编码器
+      # - SELKIES_FRAMERATE=30        # 帧率
+
+    # 数据持久化目录
+    # 所有应用数据（微信/QQ/Thorium）、配置、下载文件都会保存到 ./config
+    volumes:
+      - ./config:/config
+
+    # GPU 支持（Intel/AMD 集显或 NVIDIA 独显）
+    # 启用后可使用硬件加速视频编码
+    devices:
+      - /dev/dri:/dev/dri
+
+    # 共享内存大小（必需）
+    # 浏览器和视频编码需要较大共享内存，默认 64MB 会导致崩溃
+    shm_size: "2gb"
+
+    # 容器重启策略
+    restart: unless-stopped
