@@ -50,6 +50,17 @@ update_openbox_menu() {
     fi
 }
 
+update_alacritty_config() {
+    log "Updating Alacritty configuration..."
+    local ALACRITTY_CONFIG_DIR="/config/.config/alacritty"
+    mkdir -p "$ALACRITTY_CONFIG_DIR"
+    
+    if [ ! -f "$ALACRITTY_CONFIG_DIR/alacritty.toml" ] || ! cmp -s /defaults/alacritty.toml "$ALACRITTY_CONFIG_DIR/alacritty.toml"; then
+        cp /defaults/alacritty.toml "$ALACRITTY_CONFIG_DIR/alacritty.toml"
+        log "Alacritty configuration updated"
+    fi
+}
+
 set_wallpaper() {
     local wallpaper_path="$WALLPAPER_DIR/$DEFAULT_WALLPAPER"
 
@@ -109,12 +120,25 @@ start_system_tray() {
     fi
 }
 
+start_clipboard_sync() {
+    log "Starting clipboard synchronization..."
+    if command -v autocutsel > /dev/null 2>&1; then
+        autocutsel -s PRIMARY -fork
+        autocutsel -s CLIPBOARD -fork
+        log "Clipboard sync started (PRIMARY <-> CLIPBOARD)"
+    else
+        log "Warning: autocutsel not found, clipboard sync disabled"
+    fi
+}
+
 main() {
     configure_openbox_dock
     update_openbox_menu
+    update_alacritty_config
     sleep 2
     set_wallpaper
     start_system_tray
+    start_clipboard_sync
     sleep 1
 
     log "Starting auto-start applications..."

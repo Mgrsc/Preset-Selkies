@@ -1,0 +1,21 @@
+# Alacritty Configuration (TOML) - 0.13+ Syntax
+
+[selection]
+# 选中即复制到剪贴板 (Clipboard)
+save_to_clipboard = true
+
+[mouse]
+# 鼠标绑定
+bindings = [
+    # 右键点击粘贴 (从剪贴板 Paste)
+    { mouse = "Right", action = "PasteSelection" },
+    # 中键点击粘贴 (从选择缓冲区 PasteSelection - Linux 习惯)
+    { mouse = "Middle", action = "PasteSelection" }
+]
+
+[keyboard]
+# 键盘快捷键绑定
+bindings = [
+    { key = "V", mods = "Control|Shift", action = "PasteSelection" },
+    { key = "C", mods = "Control|Shift", action = "Copy" }
+]

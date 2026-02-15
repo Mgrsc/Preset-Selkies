@@ -23,7 +23,10 @@ RUN export DEBIAN_FRONTEND="${DEBIAN_FRONTEND}" && \
         stalonetray \
         feh \
         curl \
-        ca-certificates && \
+        ca-certificates \
+        vim \
+        alacritty \
+        autocutsel && \
     curl -fsSL --retry 3 --retry-delay 2 -o /tmp/wechat.deb "${WECHAT_URL}" || \
         { echo "ERROR: Failed to download WeChat from ${WECHAT_URL}"; exit 1; } && \
     curl -fsSL --retry 3 --retry-delay 2 -o /tmp/qq.deb "${QQ_URL}" || \
@@ -50,6 +53,7 @@ ENV TZ="Asia/Shanghai" \
 COPY assets/app-icon.png /usr/share/selkies/www/icon.png
 COPY assets/Background.png /usr/share/backgrounds/Background.png
 COPY config/menu.xml /defaults/menu.xml
+COPY config/alacritty.toml /defaults/alacritty.toml
 COPY scripts/ /scripts/
 
 RUN chmod 755 /scripts/*.sh && \
