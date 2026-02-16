@@ -1,4 +1,4 @@
-Preset-Selkies Desktop
+agent-selkies Desktop
 Copyright (c) 2025 Bitfennec
 
 This project is based on LinuxServer's docker-baseimage-selkies:
@@ -10,12 +10,11 @@ Licensed under GPL-3.0
 MODIFICATIONS
 ================================================================================
 
-This modified version (Preset-Selkies) includes the following changes:
+This modified version (agent-selkies) includes the following changes:
 
 1. Added pre-installed applications:
    - WeChat (微信) for Linux
    - QQ for Linux
-   - Thorium Browser
 
 2. Added custom system startup scripts:
    - scripts/system-start.sh - System initialization script
@@ -28,7 +27,6 @@ This modified version (Preset-Selkies) includes the following changes:
 4. Added environment variables for application auto-start control:
    - AUTO_START_WECHAT
    - AUTO_START_QQ
-   - AUTO_START_THORIUM
 
 5. Added Chinese language and timezone defaults:
    - TZ=Asia/Shanghai
@@ -78,10 +76,7 @@ This image includes the following third-party software:
 - QQ for Linux: Copyright (c) Tencent
   Website: https://im.qq.com/
 
-- Thorium Browser: Copyright (c) Alex313031
-  Website: https://thorium.rocks/
   License: BSD-3-Clause
-  Source: https://github.com/Alex313031/thorium
 
 - Selkies GStreamer: Copyright (c) 2019 The Selkies Authors
   License: Mozilla Public License 2.0

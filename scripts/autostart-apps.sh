@@ -29,12 +29,12 @@ if [ "${AUTO_START_QQ:-false}" = "true" ]; then
     fi
 fi
 
-if [ "${AUTO_START_THORIUM:-false}" = "true" ]; then
-    if [ -x /usr/bin/thorium-browser ]; then
-        log "Starting Thorium Browser..."
-        bash /scripts/app-restart.sh /usr/bin/thorium-browser --no-sandbox --test-type --disable-infobars  >> "$LOG_FILE" 2>&1
+if [ "${AUTO_START_CHROMIUM:-false}" = "true" ]; then
+    if [ -x /usr/bin/ungoogled-chromium ]; then
+        log "Starting Ungoogled Chromium..."
+        bash /scripts/app-restart.sh /usr/bin/ungoogled-chromium --no-sandbox --test-type --disable-infobars --lang=zh-CN >> "$LOG_FILE" 2>&1
     else
-        log "Warning: Thorium Browser not found or not executable"
+        log "Warning: Ungoogled Chromium not found or not executable"
     fi
 fi
 

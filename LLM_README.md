@@ -1,7 +1,6 @@
 # Selkies Desktop Environment - LLM Context
 
 ## Project Overview
-Containerized Linux desktop based on `ghcr.io/linuxserver/baseimage-selkies:ubuntunoble`, pre-configured with WeChat, QQ, and Thorium Browser. Web desktop accessible at `https://localhost:3000`.
 
 ## What You Can Help With
 - Add/remove pre-installed applications
@@ -77,12 +76,10 @@ curl -fsSL --retry 3 --retry-delay 2 -o /tmp/myapp.deb "${MYAPP_URL}" || \
 
 Update dpkg install line to include new package:
 ```dockerfile
-dpkg -i /tmp/wechat.deb /tmp/qq.deb /tmp/thorium.deb /tmp/myapp.deb || true && \
 ```
 
 Add cleanup:
 ```dockerfile
-rm -f /tmp/wechat.deb /tmp/qq.deb /tmp/thorium.deb /tmp/myapp.deb && \
 ```
 
 Add ENV variable (in ENV block):
@@ -116,10 +113,10 @@ Add to `environment:` section:
 
 #### 4. Build and Test
 ```bash
-docker build -t ghcr.io/mgrsc/preset-selkies:test .
+docker build -t ghcr.io/mgrsc/agent-selkies:test .
 docker run --rm -it -p 3001:3000 --device /dev/dri \
     -e AUTO_START_MYAPP=true \
-    ghcr.io/mgrsc/preset-selkies:test
+    ghcr.io/mgrsc/agent-selkies:test
 
 # Check logs
 docker exec <container> cat /config/.config/openbox/autostart.log
@@ -211,7 +208,6 @@ AUTO_START_WECHAT=false    # Launch WeChat on boot
                            # Note: Dockerfile default is "true", but docker-compose.yml
                            # overrides it to "false" for user control
 AUTO_START_QQ=false        # Launch QQ on boot
-AUTO_START_THORIUM=false   # Launch Thorium Browser on boot
 ```
 
 **Permissions**:
@@ -268,23 +264,22 @@ DISPLAY_SIZEH=1080         # Resolution height
 
 **View running apps**:
 ```bash
-docker exec preset-selkies ps aux | grep -E 'wechat|qq|thorium'
 ```
 
 **Restart specific app**:
 ```bash
-docker exec preset-selkies pkill wechat
-docker exec preset-selkies bash /scripts/app-restart.sh /usr/bin/wechat
+docker exec agent-selkies pkill wechat
+docker exec agent-selkies bash /scripts/app-restart.sh /usr/bin/wechat
 ```
 
 **Check container logs**:
 ```bash
-docker logs preset-selkies
+docker logs agent-selkies
 ```
 
 **Access shell**:
 ```bash
-docker exec -it preset-selkies bash
+docker exec -it agent-selkies bash
 ```
 
 **Rebuild image**:

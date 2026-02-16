@@ -24,9 +24,9 @@
 
     <separator />
 
-    <item label="Thorium Browser" icon="/usr/share/icons/hicolor/128x128/apps/thorium-browser.png">
+    <item label="Chromium" icon="/usr/share/icons/hicolor/128x128/apps/ungoogled-chromium.png">
       <action name="Execute">
-        <command>/scripts/app-restart.sh /usr/bin/thorium-browser --no-sandbox --test-type --disable-infobars </command>
+        <command>/scripts/app-restart.sh /usr/bin/ungoogled-chromium --no-sandbox --test-type --disable-infobars --lang=zh-CN</command>
       </action>
     </item>
 

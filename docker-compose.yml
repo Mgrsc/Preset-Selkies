@@ -1,7 +1,7 @@
 services:
-  preset-selkies:
-    image: ghcr.io/mgrsc/preset-selkies:latest
-    container_name: preset-selkies
+  agent-selkies:
+    image: ghcr.io/mgrsc/agent-selkies:latest
+    container_name: agent-selkies
     # Web 访问端口（必须使用 HTTPS 访问）
     # 访问地址：https://localhost:3000
     ports:
@@ -16,7 +16,7 @@ services:
       # 控制容器启动时是否自动启动预装应用
       - AUTO_START_WECHAT=false      # 微信
       - AUTO_START_QQ=false           # QQ
-      - AUTO_START_THORIUM=false      # Thorium 浏览器
+      - AUTO_START_CHROMIUM=false     # Chromium 浏览器
 
       # ============ 可选配置 ============
       # Web 界面身份验证（不设置 PASSWORD 则无需登录）
