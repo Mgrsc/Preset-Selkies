@@ -32,7 +32,7 @@ fi
 if [ "${AUTO_START_CHROMIUM:-false}" = "true" ]; then
     if [ -x /usr/bin/ungoogled-chromium ]; then
         log "Starting Ungoogled Chromium..."
-        bash /scripts/app-restart.sh /usr/bin/ungoogled-chromium --no-sandbox --test-type --disable-infobars --lang=zh-CN >> "$LOG_FILE" 2>&1
+        LANGUAGE=zh_CN:zh:en bash /scripts/app-restart.sh /usr/bin/ungoogled-chromium --no-sandbox --test-type --disable-infobars --lang=zh-CN >> "$LOG_FILE" 2>&1
     else
         log "Warning: Ungoogled Chromium not found or not executable"
     fi

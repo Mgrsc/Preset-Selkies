@@ -122,12 +122,12 @@ start_system_tray() {
 
 start_clipboard_sync() {
     log "Starting clipboard synchronization..."
-    if command -v autocutsel > /dev/null 2>&1; then
-        autocutsel -s PRIMARY -fork
-        autocutsel -s CLIPBOARD -fork
-        log "Clipboard sync started (PRIMARY <-> CLIPBOARD)"
+    if [ -x /scripts/clipboard-sync.sh ]; then
+        /scripts/clipboard-sync.sh > /dev/null 2>&1 &
+        CLIPBOARD_PID=$!
+        log "Clipboard sync script started (PID: $CLIPBOARD_PID)"
     else
-        log "Warning: autocutsel not found, clipboard sync disabled"
+        log "Warning: /scripts/clipboard-sync.sh not found"
     fi
 }
 
