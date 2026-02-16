@@ -1,3 +1,9 @@
+FROM ubuntu:noble AS clipnotify-builder
+RUN apt-get update && apt-get install -y git build-essential libx11-dev libxtst-dev
+RUN git clone https://github.com/cdown/clipnotify.git /usr/src/clipnotify && \
+    cd /usr/src/clipnotify && \
+    make
+
 FROM ghcr.io/linuxserver/baseimage-selkies:ubuntunoble
 
 LABEL org.opencontainers.image.title="Preset-Selkies Desktop" \
@@ -26,7 +32,8 @@ RUN export DEBIAN_FRONTEND="${DEBIAN_FRONTEND}" && \
         ca-certificates \
         vim \
         alacritty \
-        autocutsel && \
+        autocutsel \
+        xclip && \
     curl -fsSL --retry 3 --retry-delay 2 -o /tmp/wechat.deb "${WECHAT_URL}" || \
         { echo "ERROR: Failed to download WeChat from ${WECHAT_URL}"; exit 1; } && \
     curl -fsSL --retry 3 --retry-delay 2 -o /tmp/qq.deb "${QQ_URL}" || \
@@ -41,6 +48,8 @@ RUN export DEBIAN_FRONTEND="${DEBIAN_FRONTEND}" && \
     rm -f /tmp/wechat.deb /tmp/qq.deb /tmp/thorium.deb && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
+
+COPY --from=clipnotify-builder /usr/src/clipnotify/clipnotify /usr/local/bin/clipnotify
 
 ENV TZ="Asia/Shanghai" \
     LC_ALL="zh_CN.UTF-8" \
