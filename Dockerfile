@@ -1,6 +1,6 @@
 FROM rust:latest AS builder
-RUN git clone https://github.com/theonlyhennygod/zeroclaw.git /usr/src/zeroclaw && \
-    cd /usr/src/zeroclaw && \
+RUN git clone https://github.com/Mgrsc/zerda.git /usr/src/zerda && \
+    cd /usr/src/zerda && \
     cargo build --release
 
 FROM ubuntu:noble AS clipnotify-builder
@@ -68,9 +68,10 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir /config
     fnm install 24 && \
     fnm default 24 && \
     export PATH="/config/.local/share/fnm/aliases/default/bin:$PATH" && \
-    npm install -g agent-browser
+    npm install -g agent-browser && \
+    mkdir -p /config/.zerda/skills
 
-COPY --from=builder /usr/src/zeroclaw/target/release/zeroclaw /usr/local/bin/zeroclaw
+COPY --from=builder /usr/src/zerda/target/release/zerda /usr/local/bin/zerda
 COPY --from=clipnotify-builder /usr/src/clipnotify/clipnotify /usr/local/bin/clipnotify
 
 ENV TZ="Asia/Shanghai" \
@@ -90,6 +91,7 @@ COPY assets/Background.png /usr/share/backgrounds/Background.png
 COPY config/menu.xml /defaults/menu.xml
 COPY config/alacritty.toml /defaults/alacritty.toml
 COPY scripts/ /scripts/
+COPY skills/agent-browser /config/.zerda/skills/agent-browser
 
 RUN chmod 755 /scripts/*.sh && \
     cp /scripts/system-start.sh /defaults/autostart && \
