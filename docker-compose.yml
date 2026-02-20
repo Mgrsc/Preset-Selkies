@@ -48,4 +48,7 @@ services:
     shm_size: "2gb"
 
     # 容器重启策略
+    init: true
+    stop_signal: SIGTERM
+    stop_grace_period: 10s
     restart: unless-stopped
