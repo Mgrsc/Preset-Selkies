@@ -106,6 +106,11 @@ set_wallpaper() {
 start_system_tray() {
     log "Starting system tray..."
 
+    if pgrep -x tint2 > /dev/null 2>&1; then
+        log "Tint2 taskbar provides system tray, skipping standalone tray"
+        return 0
+    fi
+
     pkill -x stalonetray 2>/dev/null || true
     sleep 0.5
 
@@ -118,6 +123,39 @@ start_system_tray() {
     else
         log "Warning: System tray failed to start"
     fi
+}
+
+start_taskbar() {
+    log "Starting taskbar..."
+
+    pkill -x tint2 2>/dev/null || true
+    sleep 0.5
+
+    local tint2_config_dir="/config/.config/tint2"
+    local tint2_config_file="$tint2_config_dir/tint2rc"
+
+    mkdir -p "$tint2_config_dir"
+
+    if [ ! -f "$tint2_config_file" ] && [ -f /etc/xdg/tint2/tint2rc ]; then
+        cp /etc/xdg/tint2/tint2rc "$tint2_config_file"
+        log "Initialized tint2 configuration at $tint2_config_file"
+    fi
+
+    if [ -f "$tint2_config_file" ]; then
+        tint2 -c "$tint2_config_file" > /dev/null 2>&1 &
+    else
+        tint2 > /dev/null 2>&1 &
+    fi
+    TASKBAR_PID=$!
+
+    sleep 0.5
+    if kill -0 "$TASKBAR_PID" 2>/dev/null; then
+        log "Taskbar started successfully (PID: $TASKBAR_PID)"
+        return 0
+    fi
+
+    log "Warning: Taskbar failed to start"
+    return 1
 }
 
 start_clipboard_sync() {
@@ -137,6 +175,7 @@ main() {
     update_alacritty_config
     sleep 2
     set_wallpaper
+    start_taskbar || log "Taskbar startup failed, continue with standalone tray fallback"
     start_system_tray
     start_clipboard_sync
     sleep 1

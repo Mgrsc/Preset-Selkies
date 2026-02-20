@@ -30,6 +30,7 @@ RUN export DEBIAN_FRONTEND="${DEBIAN_FRONTEND}" && \
     apt-get install -y --no-install-recommends \
         fonts-noto-cjk \
         stalonetray \
+        tint2 \
         feh \
         curl \
         ca-certificates \
