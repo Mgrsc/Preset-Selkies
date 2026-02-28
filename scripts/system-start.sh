@@ -7,6 +7,7 @@ RC_XML="$CONFIG_DIR/rc.xml"
 WALLPAPER_DIR="/usr/share/backgrounds"
 DEFAULT_WALLPAPER="Background.png"
 LOG_FILE="$CONFIG_DIR/autostart.log"
+WALLPAPER_MONITOR_PID_FILE="/tmp/preset-selkies-wallpaper-monitor.pid"
 
 log() {
     local msg="[$(date '+%Y-%m-%d %H:%M:%S')] [SYSTEM] $*"
@@ -73,8 +74,21 @@ set_wallpaper() {
     if command -v feh > /dev/null 2>&1; then
         feh --bg-fill "$wallpaper_path" 2>/dev/null
 
+        if [ -f "$WALLPAPER_MONITOR_PID_FILE" ]; then
+            existing_pid=$(cat "$WALLPAPER_MONITOR_PID_FILE" 2>/dev/null || true)
+            if [ -n "${existing_pid:-}" ] && kill -0 "$existing_pid" 2>/dev/null; then
+                log "Wallpaper monitor already running (PID: $existing_pid)"
+                return 0
+            fi
+            rm -f "$WALLPAPER_MONITOR_PID_FILE"
+        fi
+
         (
-            prev_res=$(xrandr 2>/dev/null | grep "connected primary" | awk '{print $4}' | head -1)
+            trap 'rm -f "$WALLPAPER_MONITOR_PID_FILE"' EXIT
+            prev_res=$(xrandr 2>/dev/null | awk '/ connected primary / {print $4; exit}')
+            if [ -z "$prev_res" ]; then
+                prev_res=$(xrandr 2>/dev/null | awk '/ connected / {print $3; exit}')
+            fi
 
             while true; do
                 sleep 5
@@ -84,7 +98,10 @@ set_wallpaper() {
                     break
                 fi
 
-                curr_res=$(xrandr 2>/dev/null | grep "connected primary" | awk '{print $4}' | head -1)
+                curr_res=$(xrandr 2>/dev/null | awk '/ connected primary / {print $4; exit}')
+                if [ -z "$curr_res" ]; then
+                    curr_res=$(xrandr 2>/dev/null | awk '/ connected / {print $3; exit}')
+                fi
 
                 if [ -n "$curr_res" ] && [ "$curr_res" != "$prev_res" ]; then
                     prev_res="$curr_res"
@@ -98,6 +115,7 @@ set_wallpaper() {
         ) &
 
         WALLPAPER_MONITOR_PID=$!
+        echo "$WALLPAPER_MONITOR_PID" > "$WALLPAPER_MONITOR_PID_FILE"
         log "Wallpaper monitor started (PID: $WALLPAPER_MONITOR_PID)"
     fi
 }

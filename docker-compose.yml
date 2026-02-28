@@ -26,6 +26,7 @@ services:
       # ============ 其他配置 ============
       # 更多配置项（分辨率、编码器、GPU 等）请参考：
       # https://docs.linuxserver.io/images/docker-baseimage-selkies
+      - MAX_RESOLUTION=1920x1080
       #
       # 常用配置示例：
       # - CUSTOM_RES_W=1920           # 桌面宽度（默认 1920）
