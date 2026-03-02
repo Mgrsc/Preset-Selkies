@@ -17,6 +17,12 @@ services:
       - AUTO_START_WECHAT=false      # 微信
       - AUTO_START_QQ=false           # QQ
       - AUTO_START_THORIUM=false      # Thorium 浏览器
+      - QQ_FLAGS=--no-sandbox --disable-notifications --disable-features=DesktopNotifications --ozone-platform=x11
+      - QQ_WATCHDOG_ENABLED=true
+      - QQ_WATCHDOG_INTERVAL_SEC=30
+      - QQ_WATCHDOG_THRESHOLD=220
+      - QQ_WATCHDOG_RECOVERY_TARGET=170
+      - QQ_WATCHDOG_RESTART_COOLDOWN_SEC=120
 
       # ============ 可选配置 ============
       # Web 界面身份验证（不设置 PASSWORD 则无需登录）

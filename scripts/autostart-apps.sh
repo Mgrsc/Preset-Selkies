@@ -22,8 +22,21 @@ fi
 
 if [ "${AUTO_START_QQ:-false}" = "true" ]; then
     if [ -x /usr/bin/qq ]; then
-        log "Starting QQ..."
-        bash /scripts/app-restart.sh /usr/bin/qq --no-sandbox >> "$LOG_FILE" 2>&1
+        QQ_FLAGS_VALUE="${QQ_FLAGS:---no-sandbox --disable-notifications --disable-features=DesktopNotifications --ozone-platform=x11}"
+        QQ_ARGS=()
+        if [ -n "$QQ_FLAGS_VALUE" ]; then
+            read -r -a QQ_ARGS <<< "$QQ_FLAGS_VALUE"
+        fi
+        log "Starting QQ with flags: ${QQ_FLAGS_VALUE}"
+        bash /scripts/app-restart.sh /usr/bin/qq "${QQ_ARGS[@]}" >> "$LOG_FILE" 2>&1
+        if [ "${QQ_WATCHDOG_ENABLED:-true}" = "true" ]; then
+            log "Starting QQ watchdog..."
+            bash /scripts/qq-watchdog.sh >> "$LOG_FILE" 2>&1 &
+            QQ_WATCHDOG_PID=$!
+            log "QQ watchdog started (PID: $QQ_WATCHDOG_PID)"
+        else
+            log "QQ watchdog is disabled by QQ_WATCHDOG_ENABLED"
+        fi
     else
         log "Warning: QQ not found or not executable"
     fi

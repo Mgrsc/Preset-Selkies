@@ -56,6 +56,12 @@ ENV TZ="Asia/Shanghai" \
     AUTO_START_WECHAT="true" \
     AUTO_START_QQ="false" \
     AUTO_START_THORIUM="false" \
+    QQ_FLAGS="--no-sandbox --disable-notifications --disable-features=DesktopNotifications --ozone-platform=x11" \
+    QQ_WATCHDOG_ENABLED="true" \
+    QQ_WATCHDOG_INTERVAL_SEC="30" \
+    QQ_WATCHDOG_THRESHOLD="220" \
+    QQ_WATCHDOG_RECOVERY_TARGET="170" \
+    QQ_WATCHDOG_RESTART_COOLDOWN_SEC="120" \
     SELKIES_CLIPBOARD_ENABLED="true" \
     SELKIES_ENABLE_BINARY_CLIPBOARD="true"
 

@@ -116,6 +116,28 @@ docker exec preset-selkies /scripts/app-restart.sh /usr/bin/wechat
 docker exec preset-selkies /scripts/app-restart.sh /usr/bin/qq --no-sandbox
 ```
 
+### QQ 在 X11/Xvfb 下连接数持续增长（`Maximum number of clients reached`）
+
+在部分环境中，官方 `linuxqq`（Electron）会出现 X11 客户端连接缓慢累积。达到 X 服务器客户端上限后，会触发 `Maximum number of clients reached`，进而导致视频流无法启动或中断（例如前端停在 `waiting for stream`）。
+
+本仓库已提供以下缓解方式：
+
+- `QQ_FLAGS`：默认包含 `--disable-notifications --disable-features=DesktopNotifications --ozone-platform=x11`，用于降低触发频率。
+- `QQ_WATCHDOG_*`：当 `x11` 连接数超过阈值时自动重启 QQ，避免冲到上限。
+- 诊断脚本：`/scripts/x11-diagnose.sh` 可持续观测 `x11_estab_pairs` 变化。
+
+相关问题参考链接（按相关度排序）：
+
+1. AUR linuxqq 用户反馈（与纯 X11/Xvfb 场景高度相关）：https://aur.archlinux.org/packages/linuxqq
+2. Electron issue #2922（X11 连接泄漏历史问题）：https://github.com/electron/electron/issues/2922
+3. Electron issue #2873（X11 客户端占用相关）：https://github.com/electron/electron/issues/2873
+4. Unix StackExchange（诊断命令与排查思路）：
+   https://unix.stackexchange.com/a/700637
+   https://unix.stackexchange.com/questions/250920/debugging-maximum-number-of-clients-reached-unable-to-open-display-0
+5. Unix StackExchange（Xorg/Xvfb MaxClients 说明）：
+   https://unix.stackexchange.com/questions/498652/does-x-window-have-a-maximum-number-limit-on-clients
+6. Arch Linux 论坛（同类问题讨论）：https://bbs.archlinux.org/viewtopic.php?id=188052
+
 ## 🎯 添加自定义应用
 
 1. `git clone https://github.com/Mgrsc/Preset-Selkies.git && cd Preset-Selkies`
