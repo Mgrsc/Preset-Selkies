@@ -15,7 +15,7 @@ LABEL org.opencontainers.image.title="Preset-Selkies Desktop" \
       org.opencontainers.image.base.name="ghcr.io/linuxserver/baseimage-selkies:ubuntunoble"
 
 ARG WECHAT_VERSION="WeChatLinux_x86_64.deb"
-ARG QQ_VERSION="QQ_3.2.25_260205_amd64_01.deb"
+ARG QQ_VERSION="QQ_3.2.27_260401_amd64_01.deb"
 ARG THORIUM_VERSION="M138.0.7204.300/thorium-browser_138.0.7204.300_AVX2.deb"
 ARG WECHAT_URL="https://dldir1v6.qq.com/weixin/Universal/Linux/${WECHAT_VERSION}"
 ARG QQ_URL="https://dldir1v6.qq.com/qqfile/qq/QQNT/Linux/${QQ_VERSION}"
